@@ -109,4 +109,28 @@ describe "definition loading" do
       end
     end
   end
+
+  describe "definition_file_paths" do
+    in_directory_with_files "spec/my_factories/factory_one.rb", "spec/my_factories/factory_two.rb"
+
+    before { allow(FactoryBot).to receive(:load) }
+
+    it "supports files without extension" do
+      allow(FactoryBot).to receive(:definition_file_paths) { ["spec/my_factories/factory_one"] }
+
+      FactoryBot.find_definitions
+
+      expect(FactoryBot).to have_received(:load).once.with(File.expand_path("spec/my_factories/factory_one.rb"))
+    end
+
+    it "supports directories" do
+      allow(FactoryBot).to receive(:definition_file_paths) { ["spec/my_factories"] }
+
+      FactoryBot.find_definitions
+
+      expect(FactoryBot).to have_received(:load).twice
+      expect(FactoryBot).to have_received(:load).with(File.expand_path("spec/my_factories/factory_one.rb"))
+      expect(FactoryBot).to have_received(:load).with(File.expand_path("spec/my_factories/factory_two.rb"))
+    end
+  end
 end
