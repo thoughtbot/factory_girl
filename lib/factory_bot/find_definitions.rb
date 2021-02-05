@@ -15,6 +15,8 @@ module FactoryBot
     absolute_definition_file_paths.uniq.each do |path|
       load("#{path}.rb") if File.exist?("#{path}.rb")
 
+      load path if File.file? path
+
       if File.directory? path
         Dir[File.join(path, "**", "*.rb")].sort.each do |file|
           load file

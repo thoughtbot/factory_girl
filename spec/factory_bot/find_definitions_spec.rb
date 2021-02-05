@@ -132,5 +132,13 @@ describe "definition loading" do
       expect(FactoryBot).to have_received(:load).with(File.expand_path("spec/my_factories/factory_one.rb"))
       expect(FactoryBot).to have_received(:load).with(File.expand_path("spec/my_factories/factory_two.rb"))
     end
+
+    it "supports files with with extension" do
+      allow(FactoryBot).to receive(:definition_file_paths) { ["spec/my_factories/factory_one.rb"] }
+
+      FactoryBot.find_definitions
+
+      expect(FactoryBot).to have_received(:load).once.with(File.expand_path("spec/my_factories/factory_one.rb"))
+    end
   end
 end
