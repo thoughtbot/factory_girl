@@ -25,6 +25,10 @@ module FactoryBot
           end
         end
 
+        def with_namespace(namespace, options = {}, &block)
+          NamespacedFactory.new(namespace, options).instance_exec(&block)
+        end
+
         def sequence(name, *args, &block)
           Internal.register_sequence(Sequence.new(name, *args, &block))
         end
