@@ -5,21 +5,27 @@ module FactoryBot
     # "factories", "test/factories" and "spec/factories". Only the first
     # existing file will be loaded.
     attr_accessor :definition_file_paths
+
+    def find_definitions
+      definition_file_paths.flat_map { |path|
+        paths_for(path)
+      }.uniq.each do |path|
+        load path
+      end
+    end
+
+    private
+
+    def paths_for(path)
+      path = File.expand_path(path)
+
+      paths = []
+      paths << path if File.file? path
+      paths << "#{path}.rb" if File.file? "#{path}.rb"
+      paths += Dir[File.join(path, "**", "*.rb")].sort if File.directory? path
+      paths
+    end
   end
 
   self.definition_file_paths = %w[factories test/factories spec/factories]
-
-  def self.find_definitions
-    absolute_definition_file_paths = definition_file_paths.map { |path| File.expand_path(path) }
-
-    absolute_definition_file_paths.uniq.each do |path|
-      load("#{path}.rb") if File.exist?("#{path}.rb")
-
-      if File.directory? path
-        Dir[File.join(path, "**", "*.rb")].sort.each do |file|
-          load file
-        end
-      end
-    end
-  end
 end
