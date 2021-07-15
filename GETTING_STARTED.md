@@ -1013,6 +1013,15 @@ factory :post do
 end
 ```
 
+Please note, that the value for the sequence could be any Enumerable instance,
+as long as it responds to `#next`:
+
+```ruby
+factory :task do
+  sequence :priority, %i[low medium high urgent].cycle
+end
+```
+
 ### Aliases
 
 Sequences can also have aliases. The sequence aliases share the same counter:
