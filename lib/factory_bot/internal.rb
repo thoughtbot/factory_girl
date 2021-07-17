@@ -84,7 +84,6 @@ module FactoryBot
         register_strategy(:create, FactoryBot::Strategy::Create)
         register_strategy(:attributes_for, FactoryBot::Strategy::AttributesFor)
         register_strategy(:build_stubbed, FactoryBot::Strategy::Stub)
-        register_strategy(:null, FactoryBot::Strategy::Null)
       end
     end
   end

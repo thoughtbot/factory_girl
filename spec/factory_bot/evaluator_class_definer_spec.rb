@@ -54,9 +54,17 @@ describe FactoryBot::EvaluatorClassDefiner do
     end
   end
 
+  class NullStrategy
+    def association(runner)
+    end
+
+    def result(evaluation)
+    end
+  end
+
   def define_evaluator(arguments = {})
     evaluator_class = define_evaluator_class(arguments)
-    evaluator_class.new(FactoryBot::Strategy::Null)
+    evaluator_class.new(NullStrategy)
   end
 
   def define_evaluator_class(arguments = {})

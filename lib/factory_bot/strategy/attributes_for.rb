@@ -2,7 +2,7 @@ module FactoryBot
   module Strategy
     class AttributesFor
       def association(runner)
-        runner.run(:null)
+        nil
       end
 
       def result(evaluation)
